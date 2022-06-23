@@ -1,0 +1,147 @@
+<html>
+	<head>
+		<style>
+			#alert {
+			  padding: 15px;
+			  border: 1px solid #d6e9c6;
+			  border-radius: 4px;
+			  color: #3c763d;
+			  background-color: #dff0d8;
+			}
+			input {
+				cursor:pointer; 
+				padding:7px 15px;
+				border:none;
+				border-radius:5px; 
+				color:#fff;
+				font-size:14px;
+				background:rgb(63,72,204);
+				text-align:center;
+				width:70px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div>
+			<div id="divTab">
+				<table>
+					<tr><td colspan="4"><div style="border:1px solid silver;padding:10px;text-align:right">0</div></td></tr>
+					<tr><td><input type="button" value="exp" /></td><td><input type="button" value="v" /></td><td><input type="button" value="Init" /></td><td><input type="button" value="Suppr" /></td></tr>
+					<tr><td><input type="button" value="1" /></td><td><input type="button" value="2" /></td><td><input type="button" value="3" /></td><td><input type="button" value="+" /></td></tr>
+					<tr><td><input type="button" value="4" /></td><td><input type="button" value="5" /></td><td><input type="button" value="6" /></td><td><input type="button" value="-" /></td></tr>
+					<tr><td><input type="button" value="7" /></td><td><input type="button" value="8" /></td><td><input type="button" value="9" /></td><td><input type="button" value="/" /></td></tr>
+					<tr><td><input type="button" value="0" /></td><td><input type="button" value="." /></td><td><input type="button" value="=" /></td><td><input type="button" value="*" /></td></tr>
+				</table>
+				<input type="hidden" id="checkrep" value="" />
+			</div>
+		</div>
+
+		<script>
+			let inputs = document.querySelectorAll('input');
+			
+			inputs.forEach(function(value, key, array) {
+				this.addEventListener('click', myFunc)
+			})
+			//alert(inputs)
+			//inputs.addEventListener('click', myFunc)
+			const symboles = ['+', '-', '/', '*', 'exp', 'v']
+			let div = document.querySelector('tr td div')
+			
+			function myFunc(event) { 
+				
+				let valeur = event.target.value
+				
+				if (valeur == "Init")
+				{
+					div.innerHTML = "0";
+				}
+				else if(valeur == "Suppr")
+				{
+					let taille = div.innerHTML.length
+					
+					if(taille == 1)
+					{
+						div.innerHTML = 0
+					}
+					else
+					{ 
+						let last = taille - 1
+						let coupe = div.innerHTML.substring(0, last)
+						div.innerHTML = coupe
+					}
+				}
+				else
+				{
+					if (div.innerHTML == "0" || checkrep.value !== "")
+					{
+						div.innerHTML = "";
+						checkrep.value = ""
+					}
+					
+					if (symboles.indexOf(valeur) !== -1)
+					{
+						//alert(1)
+					}
+					
+					if (valeur == "=")
+					{
+						if (checkSymbol() === false)
+						{
+							div.innerHTML = "0";
+						} 
+					}
+					else
+					{
+						div.innerHTML += valeur
+					}
+				}
+			}
+			
+			function checkSymbol()
+			{
+				 
+				for (s of symboles)
+				{
+					if (div.innerHTML.indexOf(s) !== -1)
+					{
+						let tb = div.innerHTML.split(s)
+						let operation;
+						if (s == '+')
+						{
+							operation = parseFloat(tb[0]) + parseFloat(tb[1])
+						}
+						else if (s == '-')
+						{
+							operation = parseFloat(tb[0]) - parseFloat(tb[1])
+						}
+						else if (s == '/')
+						{
+							operation = parseFloat(tb[0]) / parseFloat(tb[1])
+						}
+						else if (s == '*')
+						{
+							operation = parseFloat(tb[0]) * parseFloat(tb[1])
+						}
+						else if (s == 'exp')
+						{
+							operation = parseFloat(tb[0]) ** parseFloat(tb[1])
+						}
+						else if (s == 'v')
+						{
+							operation = parseFloat(tb[0]) ** (1/parseFloat(tb[1]))
+						}
+						div.innerHTML = operation
+						checkrep.value = 1
+						
+						return true
+					}
+				}
+				
+				return false
+			}
+			
+		</script>
+	</body>
+</html>
+ 

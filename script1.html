@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="">
+    <title>Javascript</title>
+    <script>
+        //function checkage(age) {
+        //if (age >= 18) {
+        //  return true
+        //} else {
+        //  return false
+        //}
+        //}
+
+        //let age = prompt('Quel age avez vous ?', '')
+
+        //if (checkage(age) == true) {
+        //  alert('Vous êtes majeur')
+        //} else {
+        //  alert('vous êtes mineur')
+        //}
+        /*fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then(response => response.json())
+            .then(json => console.log(json))
+            .catch(err => alert('il y a erreur : ' + err))*/
+
+        /*fetch('https://jsonplaceholder.typicode.com/posts')
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+            .catch(err => alert('il y a erreur : ' + err))*/
+        //Create
+        /*fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: 'foo',
+                    body: 'bar',
+                    userId: 1,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+            .catch(err => alert('il y a erreur : ' + err))*/
+        /*let user = {
+            name: 'Jack',
+            age: 30,
+
+            sayHi() {
+                console.log('Bonjour', this.name, 'Tu as ', this.age, 'd\'age');
+            }
+        };
+        user.sayHi()*/
+        /*
+                let user = {
+                    name: 'Jack'
+                }
+                let admin = {
+                    name: 'Stico'
+                }
+
+                function sayHi() {
+                    console.log('bonjour', this.name);
+                }
+                user.f = sayHi
+                admin.f = sayHi
+
+                user.f()
+                admin['f']()
+                    //  console.log(user.f)
+        */
+        //un constructeur qui demande un nom et l'affiche
+        /*function User(name) {
+            this.name = name;
+            this.sayHi = function() {
+                console.log('Mon nom est : ' + this.name)
+            }
+        }
+        let user = new User(prompt('Quel est ton nom', ''))
+
+        user.sayHi()*/
+
+        /*function Person(first, last, age, eyecolor) {
+            this.firstname = first
+            this.lastname = last
+            this.age = age
+            this.eyecolor = eyecolor
+        }
+
+        Person.prototype.nationality = 'Congolais'
+
+        let user = new Person('Jack', 'Mayinza', 21, 'bleu', 'congolais')
+        console.log(user.nationality)*/
+
+        /* class Car {
+             constructor(name, year) {
+                 this.name = name;
+                 this.year = year
+             }
+             age() {
+                 let date = new Date();
+                 return date.getFullYear() - this.year
+             }
+         }
+         let myCar = new Car('Ford', 2014)
+         console.log('Ma voiture a : ' + myCar.age() + 'ans')*/
+        /*class Car {
+            constructor(name, year) {
+                this.name = name
+                this.year = year
+            }
+            age(x) {
+                return x - this.year;
+            }
+        }
+        let date = new Date()
+        let year = date.getFullYear();
+
+        let myCar = new Car(prompt('Quel est le nom de ta voiture : ', ''), prompt('Quelle est sa date de fabrication : ', ''))
+
+        alert('Ma voiture a : ' + myCar.age(year) + ' ans')*/
+        /*
+        //update
+        fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    id: 1,
+                    title: 'foo',
+                    body: 'bar',
+                    userId: 1,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+            .catch(err => alert('il y a erreur : ' + err))*/
+    </script>
+
+</head>
+<style>
+    #page {
+        padding: 0;
+        margin: 0;
+    }
+    
+    #tb {
+        border: 1px solid rgb(0, 0, 0);
+        border-collapse: collapse;
+    }
+    
+    th,
+    td {
+        border: 1px solid rgb(0, 0, 0);
+        padding: 5px 10px;
+    }
+    
+    #page {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        margin: 0 auto;
+        width: 90%;
+        justify-content: center;
+    }
+    
+    #page div:first-child {
+        width: 60%;
+    }
+    
+    #page div:last-child {
+        width: 40%;
+    }
+    
+    legend {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    
+    input {
+        min-width: 250px;
+        width: 95%;
+        padding: 7px;
+        border-radius: 10px;
+        border: 1px solid rgb(0, 0, 0);
+    }
+    
+    textarea,
+    input {
+        min-width: 250px;
+        width: 95%;
+        padding: 7px;
+        border-radius: 10px;
+        border: 1px solid rgb(0, 0, 0);
+    }
+    
+    .btn {
+        cursor: pointer;
+        padding: 7px 15px;
+        border: none;
+        border-radius: 5px;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+    }
+    
+    .btn-primary {
+        background: rgb(63, 72, 204);
+    }
+    
+    .btn-danger {
+        background: rgb(237, 28, 36);
+    }
+    
+    #modal {
+        display: none;
+        background: rgba(0, 0, 0, 0.4);
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+    
+    #modal div {
+        background: #fff;
+        width: 30%;
+        margin: 80px auto;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 1px 1px 20px #999;
+        font-family: arial;
+    }
+</style>
+
+<body onload="getAll();">
+    <div id="feuille">
+        <div id="page">
+            <div id="tableau">
+                <table id="tb">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Titre</th>
+                            <th>Description</th>
+                            <th>Modifier</th>
+                            <th>Supprimer</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div class="formulaire">
+                    <form action="" method="post">
+                        <fieldset>
+                            <legend>Enregistrer</legend>
+                            <p><label for="">User ID</label><input type="number" required name="userid" id="userid" /></p>
+                            <p><label for="">Titre</label><input type="text" required name="title" id="title" /></p>
+                            <p><label for="">Description</label> : </p> <textarea name="body" id="body" required cols="30" rows="10"></textarea></p>
+                            <button class="btn btn-primary" id="btnCreate" type="button" onclick="createNew()">Créer</button>
+                            <button type="reset" class="btn btn-danger" id="btnreset" type="button" onclick="Reset()">Annuler</button>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal">
+            <div>
+                <form action="" method="post">
+
+                    <h2>Modifier</h2>
+                    <p><label>User ID</label> : <input type="number" required="" name="userid2" id="userid2" /></p>
+                    <p><label>Titre</label> : <input type="text" required="" name="title2" id="title2" /></p>
+                    <p><label>Description</label> : <textarea rows="8" required="" name="body2" id="body2" /></textarea>
+                    </p>
+                    <input type="hidden" required="" name="id" id="id" />
+                    <input type="hidden" id="trSelect" />
+                    <p>
+                        <button type="button" onclick="update()" class="btn btn-primary" id="btnModif" />Modifier</button>
+                        <button onclick="closeModal()" class="btn btn-danger" type="reset" />Annuler</button>
+                    </p>
+                    <p id="msg"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    async function getAll() {
+        let rec = await fetch('https://jsonplaceholder.typicode.com/posts')
+            .then((response) => response.json())
+            .then((json) => (json))
+            .catch(err => alert('il y a erreur : ' + err))
+
+        if (rec.length != undefined) {
+            let tab = document.querySelector('#tb tbody')
+
+            rec.map((rec) => {
+                let tb = [rec.userId, rec.title, rec.body, '<button  class="btn btn-primary" onclick="interfaceModif(' + rec.id + ')">Modifier</button>', '<button  class="btn btn-danger" onclick="suppr(' + rec.id + ', event)">Supprimer</button>']
+                let tr = document.createElement('tr')
+
+                for (val of tb) {
+                    tr.append(createTd(val))
+                }
+                tab.prepend(tr)
+            })
+        } else {
+            alert('Problème de connexion ')
+        }
+    }
+
+    //
+    function createTd(valeur) {
+        let td = document.createElement('td')
+        td.innerHTML = valeur
+
+        return td
+    }
+    //function créer 
+    async function createNew() {
+
+        let data = {
+            title: title.value,
+            body: body.value,
+            userid: userid.value
+        }
+
+
+        btnCreate.textContent = "Encours ..."
+
+        let rep = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) => response.json())
+            .then((json) => (json))
+            .catch(err => alert('il y a une erreur : ' + err))
+
+
+
+        let tab = document.querySelector('#tb tbody')
+        let tb = [rep.userid, rep.title, rep.body, '<button  class="btn btn-primary" onclick="interfaceModif(' + rep.id + ')">Modifier</button>', '<button  class="btn btn-danger" onclick="suppr(' + rep.id + ', event)">Supprimer</button>']
+
+        let tr = document.createElement('tr')
+
+        for (val of tb) tr.append(createTd(val))
+
+        tab.prepend(tr)
+
+        title.value = ''
+        body.value = ''
+        userid.value = ''
+
+        btnCreate.textContent = "Créer"
+
+
+    }
+
+    //function supprimer
+    function suppr(i, event) {
+        console.log(event)
+        if (confirm('Voulez-vous vraiment effectuer cette suppression ?')) {
+            //consiole.log(event)
+            event.target.closest('tr').remove()
+        }
+    }
+
+    //Récupération des informations à modifier
+    function interfaceModif(i) {
+        let tr = event.target.closest('tr')
+        let userid = tr.childNodes[0].textContent
+        let title = tr.childNodes[1].textContent
+        let body = tr.childNodes[2].textContent
+        console.log(tr.rowIndex)
+        id.value = i
+        userid2.value = userid
+        title2.value = title
+        body2.value = body
+        trSelect.value = tr.rowIndex
+
+        modal.style.display = 'block'
+    }
+
+
+
+    // function modifier
+    async function update() {
+        let data = {
+            id: id.value,
+            title: title2.value,
+            body: body2.value,
+            userid: userid2.value
+        }
+        btnModif.textContent = 'Encours ...'
+
+        let rep = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then((response) => response.json())
+            .then((json) => json)
+            .catch(err => alert('il y a une erreur : ' + err))
+
+        let tr = document.querySelector('tbody tr:nth-child(' + trSelect.value + ')')
+
+        tr.childNodes[0].textContent = rep.userid
+        tr.childNodes[1].textContent = rep.title
+        tr.childNodes[2].textContent = rep.body
+
+        userid2.value = ''
+        title2.value = ''
+        body2.value = ''
+        trSelect.value = ''
+        id.value = ''
+        btnModif.textContent = 'Modifier'
+
+        modal.style.display = "none"
+    }
+
+    function closeModal() {
+        let tr = document.querySelector('tbody tr:nth-child(' + trSelect.value + ')')
+
+        userid2.value = ""
+        title2.value = ""
+        body2.value = ""
+        trSelect.value = ""
+        id.value = ""
+        btnModif.textContent = "Modfier"
+
+        modal.style.display = "none"
+    }
+</script>
+
+</html>
