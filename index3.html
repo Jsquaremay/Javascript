@@ -1,0 +1,308 @@
+<html>
+
+<head>
+
+    <style>
+        #alert {
+            padding: 15px;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            color: #3c763d;
+            background-color: #dff0d8;
+        }
+        
+        #tb {
+            border: 1px solid #aaa;
+            border-collapse: collapse;
+        }
+        
+        #tb th,
+        #tb td {
+            border: 1px solid #aaa;
+            padding: 5px 10px;
+        }
+        
+        #row {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 90%;
+        }
+        
+        #row div:first-child {
+            width: 60%;
+        }
+        
+        #row div:last-child {
+            width: 38%;
+        }
+        
+        #modal {
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
+        
+        #modal div {
+            background: #fff;
+            width: 30%;
+            margin: 80px auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 1px 1px 20px #999;
+            font-family: arial;
+        }
+        
+        input,
+        textarea {
+            min-width: 250px;
+            width: 100%;
+            padding: 7px;
+            border-radius: 10px;
+            border: 1px solid silver;
+        }
+        
+        legend {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        body {
+            font-family: arial;
+        }
+        
+        .btn {
+            cursor: pointer;
+            padding: 7px 15px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: rgb(63, 72, 204);
+        }
+        
+        .btn-danger {
+            background: rgb(237, 28, 36);
+        }
+    </style>
+</head>
+
+<body onload="getAll();">
+    <h2 id="titre">Titre</h2>
+    <div id="row">
+        <div>
+            <table id="tb">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div>
+                <form action="" method="post">
+                    <fieldset>
+                        <legend>Enregister</legend>
+                        <p><label>User ID</label> : <input type="number" required="" name="userid" id="userid" /></p>
+                        <p><label>Titre</label> : <input type="text" required="" name="title" id="title" /></p>
+                        <p><label>Description</label> : <textarea rows="8" required="" name="body" id="body"></textarea></p>
+
+                        <p><button class="btn btn-primary" id="btnCreate" type="button" onclick="createNew()">Créer</button> <button class="btn btn-danger" type="reset">Annuler</button>
+                        </p>
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal">
+        <div>
+            <form action="" method="post">
+
+                <h2>Modifier</h2>
+                <p><label>User ID</label> : <input type="number" required="" name="userid2" id="userid2" /></p>
+                <p><label>Titre</label> : <input type="text" required="" name="title2" id="title2" /></p>
+                <p><label>Description</label> : <textarea rows="8" required="" name="body2" id="body2" /></textarea>
+                </p>
+                <input type="hidden" required="" name="id" id="id" />
+                <input type="hidden" id="trSelect" />
+                <p><button type="button" class="btn btn-primary" onclick="update()" id="btnModif" />Modifier</button> <button onclick="closeModal()" class="btn btn-danger" type="reset" />Annuler</button>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //Listing all resources	
+        async function getAll() {
+            let req = await fetch('https://jsonplaceholder.typicode.com/posts')
+                .then((response) => response.json())
+                .then((json) => json)
+                .catch(err => console.log('il y a une erreur : ' + err))
+
+            let tab = document.querySelector('#tb tbody')
+            if (req.length !== undefined) {
+                req.map((rep) => {
+                    let tb = [rep.userId, rep.title, rep.body, '<button  class="btn btn-primary" onclick="interfaceModif(' + rep.id + ')">Modifier</button>', '<button  class="btn btn-danger" onclick="suppr(' + rep.id + ', event)">Supprimer</button>']
+                    let tr = document.createElement('tr')
+
+                    for (val of tb) {
+                        tr.append(creatTd(val))
+                    }
+
+                    /*
+                    tr.append(creatTd(rep.id))
+                    tr.append(creatTd(rep.title))
+                    tr.append(creatTd(rep.body))
+                    tr.append(creatTd('<button class="btn-modif" onclick="interfaceModif('+rep.id+')">Modifier</button>'))
+                    tr.append(creatTd('<button class="btn-suppr" onclick="suppr('+rep.id+')">Supprimer</button>'))
+                    */
+                    tab.prepend(tr)
+                        //alert(rep)
+                        //tab.append = '<tr><td>'+rep.userId+'</td><td>'+rep.title+'</td><td>'+rep.body+'</td><td><button onclick="interfaceModif('+rep.body+'">Modifier</button></td><td><button onclick="supprimer('+rep.body+'">Supprimer</button></td></tr>'
+                })
+            } else {
+                alert('Problème de connexion!')
+            }
+
+
+        }
+
+        function creatTd(valeur) {
+            let td = document.createElement('td')
+            td.innerHTML = valeur
+                //alert(String(td))
+            return td
+        }
+
+        function interfaceModif(i) {
+            let tr = event.target.closest('tr')
+            let userid = tr.childNodes[0].textContent
+            let titre = tr.childNodes[1].textContent
+            let body = tr.childNodes[2].textContent
+            console.log(tr.rowIndex)
+            id.value = i
+            userid2.value = userid
+            title2.value = titre
+            body2.value = body
+            trSelect.value = tr.rowIndex
+
+            modal.style.display = "block"
+        }
+
+        //Supprimer
+        function suppr(i, event) {
+            console.log(event)
+            if (confirm('Voulez-vous vraiment effectuer cette suppression?')) {
+                //console.log(event)
+                event.target.closest('tr').remove()
+            }
+
+        }
+
+        //créer
+        async function createNew() {
+            let data = {
+                title: title.value,
+                body: body.value,
+                userId: userid.value
+            }
+            btnCreate.textContent = "Encours..."
+
+            let rep = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                })
+                .then((response) => response.json())
+                .then((json) => json)
+                .catch(err => alert('il y a une erreur : ' + err))
+
+            let tab = document.querySelector('#tb tbody')
+
+            let tb = [rep.userId, rep.title, rep.body, '<button  class="btn btn-primary" onclick="interfaceModif(' + rep.id + ')">Modifier</button>', '<button  class="btn btn-danger" onclick="suppr(' + rep.id + ', event)">Supprimer</button>']
+            let tr = document.createElement('tr')
+
+            for (val of tb) tr.append(creatTd(val))
+
+            tab.prepend(tr)
+
+            title.value = ""
+            body.value = ""
+            userid.value = ""
+
+            btnCreate.textContent = "Créer."
+        }
+
+        //Modifier
+        async function update() {
+            let data = {
+                id: id.value,
+                title: title2.value,
+                body: body2.value,
+                userId: userid2.value
+            }
+            btnModif.textContent = "Encours..."
+            let rep = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                    method: 'PUT',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                })
+                .then((response) => response.json())
+                .then((json) => json)
+                .catch(err => alert('il y a une erreur : ' + err))
+
+            let tr = document.querySelector('tbody tr:nth-child(' + trSelect.value + ')')
+
+            tr.childNodes[0].textContent = rep.userId
+            tr.childNodes[1].textContent = rep.title
+            tr.childNodes[2].textContent = rep.body
+
+
+            userid2.value = ""
+            title2.value = ""
+            body2.value = ""
+            trSelect.value = ""
+            id.value = ""
+            btnModif.textContent = "Modfier"
+
+            modal.style.display = "none"
+        }
+
+        function closeModal() {
+            let tr = document.querySelector('tbody tr:nth-child(' + trSelect.value + ')')
+
+            userid2.value = ""
+            title2.value = ""
+            body2.value = ""
+            trSelect.value = ""
+            id.value = ""
+            btnModif.textContent = "Modfier"
+
+            modal.style.display = "none"
+        }
+    </script>
+</body>
+
+</html>
